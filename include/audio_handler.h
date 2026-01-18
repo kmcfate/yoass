@@ -9,6 +9,8 @@ class AudioHandler {
 private:
     bool initialized;
     void setupI2S();
+    static const int MAX_BUFFER_SAMPLES = 8000;  // 500ms at 16kHz
+    int16_t sampleBuffer[MAX_BUFFER_SAMPLES];     // Buffer for tone generation
 
 public:
     AudioHandler();

@@ -59,14 +59,10 @@ bool AudioHandler::playTone(int frequency, int duration) {
     
     const int sampleRate = I2S_SAMPLE_RATE;
     
-    // Limit duration to prevent stack overflow (max 500ms)
+    // Limit duration to prevent buffer overflow (max 500ms)
     if (duration > 500) duration = 500;
     
     const int samples = (sampleRate * duration) / 1000;
-    
-    // Fixed maximum buffer size for predictable stack usage (~16KB)
-    const int MAX_BUFFER_SAMPLES = 8000;  // 500ms at 16kHz
-    static int16_t sampleBuffer[MAX_BUFFER_SAMPLES];
     
     if (samples > MAX_BUFFER_SAMPLES) return false;
     

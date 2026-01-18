@@ -249,13 +249,21 @@ void handleSerialCommands() {
             } else {
                 // Safe multiplication since we checked bounds
                 unsigned long offsetMs = seconds * 1000UL;
-                unsigned long triggerTime = millis() + offsetMs;
-                if (reminderManager.addReminder(title, message, triggerTime)) {
-                    Serial.println("Reminder added successfully!");
-                    audioHandler.playConfirmation();
-                } else {
-                    Serial.println("Failed to add reminder!");
+                unsigned long currentMillis = millis();
+                
+                // Check for overflow when adding offset to current time
+                if (offsetMs > ULONG_MAX - currentMillis) {
+                    Serial.println("Reminder time would overflow system time!");
                     audioHandler.playError();
+                } else {
+                    unsigned long triggerTime = currentMillis + offsetMs;
+                    if (reminderManager.addReminder(title, message, triggerTime)) {
+                        Serial.println("Reminder added successfully!");
+                        audioHandler.playConfirmation();
+                    } else {
+                        Serial.println("Failed to add reminder!");
+                        audioHandler.playError();
+                    }
                 }
             }
         }

@@ -160,7 +160,13 @@ void ReminderManager::checkReminders(unsigned long currentTime) {
                     Serial.println("Recurring interval too large, disabling reminder");
                 } else {
                     unsigned long intervalMs = reminders[i].recurInterval * 1000UL;
-                    reminders[i].triggerTime = currentTime + intervalMs;
+                    // Check for overflow when adding to currentTime
+                    if (intervalMs > ULONG_MAX - currentTime) {
+                        reminders[i].enabled = false;
+                        Serial.println("Next trigger time would overflow, disabling reminder");
+                    } else {
+                        reminders[i].triggerTime = currentTime + intervalMs;
+                    }
                 }
                 saveReminders();
             } else {
