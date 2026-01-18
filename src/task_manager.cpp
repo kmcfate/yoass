@@ -92,6 +92,7 @@ Task* TaskManager::getTasksByStatus(TaskStatus status, int& count) {
     count = 0;
     for (int i = 0; i < taskCount; i++) {
         if (tasks[i].status == status) {
+            if (count >= MAX_TASKS) break;  // Prevent buffer overflow
             filteredTasks[count++] = tasks[i];
         }
     }
@@ -102,6 +103,7 @@ Task* TaskManager::getTasksByPriority(TaskPriority priority, int& count) {
     count = 0;
     for (int i = 0; i < taskCount; i++) {
         if (tasks[i].priority == priority) {
+            if (count >= MAX_TASKS) break;  // Prevent buffer overflow
             filteredTasks[count++] = tasks[i];
         }
     }

@@ -59,7 +59,12 @@ bool AudioHandler::playTone(int frequency, int duration) {
     
     const int sampleRate = I2S_SAMPLE_RATE;
     const int samples = (sampleRate * duration) / 1000;
-    int16_t* sampleBuffer = new int16_t[samples];
+    
+    // Use pre-allocated buffer with maximum size
+    const int maxSamples = sampleRate * 2;  // Max 2 seconds
+    if (samples > maxSamples) return false;
+    
+    int16_t sampleBuffer[maxSamples];
     
     for (int i = 0; i < samples; i++) {
         float angle = 2.0 * PI * frequency * i / sampleRate;
@@ -69,7 +74,6 @@ bool AudioHandler::playTone(int frequency, int duration) {
     size_t bytesWritten;
     i2s_write(I2S_PORT, sampleBuffer, samples * sizeof(int16_t), &bytesWritten, portMAX_DELAY);
     
-    delete[] sampleBuffer;
     return true;
 }
 

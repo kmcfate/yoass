@@ -89,6 +89,7 @@ Note* NoteManager::searchNotes(const String& query, int& count) {
         if (titleLower.indexOf(queryLower) >= 0 || 
             contentLower.indexOf(queryLower) >= 0 || 
             tagsLower.indexOf(queryLower) >= 0) {
+            if (count >= MAX_NOTES) break;  // Prevent buffer overflow
             searchResults[count++] = notes[i];
         }
     }
