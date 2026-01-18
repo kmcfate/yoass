@@ -238,12 +238,15 @@ void handleSerialCommands() {
             unsigned long seconds = Serial.parseInt();
             Serial.readStringUntil('\n');
             
-            // Prevent overflow: max 49 days (4294967 seconds)
-            if (seconds > 4294967) {
+            // Prevent overflow: max 4294967 seconds (49 days)
+            // Safe multiplication check: if seconds > ULONG_MAX/1000
+            if (seconds > 4294967UL) {
                 Serial.println("Time too large! Maximum is 4294967 seconds (49 days)");
                 audioHandler.playError();
             } else {
-                unsigned long triggerTime = millis() + (seconds * 1000UL);
+                // Safe multiplication since we checked bounds
+                unsigned long offsetMs = seconds * 1000UL;
+                unsigned long triggerTime = millis() + offsetMs;
                 if (reminderManager.addReminder(title, message, triggerTime)) {
                     Serial.println("Reminder added successfully!");
                     audioHandler.playConfirmation();

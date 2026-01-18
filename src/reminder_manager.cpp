@@ -152,7 +152,9 @@ void ReminderManager::checkReminders(unsigned long currentTime) {
             
             if (reminders[i].recurring && reminders[i].recurInterval > 0) {
                 // Update trigger time for next occurrence
-                reminders[i].triggerTime = currentTime + reminders[i].recurInterval;
+                // Convert recurInterval from seconds to milliseconds safely
+                unsigned long intervalMs = reminders[i].recurInterval * 1000UL;
+                reminders[i].triggerTime = currentTime + intervalMs;
                 saveReminders();
             } else {
                 // Disable one-time reminder
