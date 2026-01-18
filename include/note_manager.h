@@ -19,6 +19,7 @@ private:
     Note notes[MAX_NOTES];
     int noteCount;
     String generateId();
+    Note searchResults[MAX_NOTES];  // Buffer for search results
 
 public:
     NoteManager();

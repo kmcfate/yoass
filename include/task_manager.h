@@ -23,6 +23,7 @@ private:
     Task tasks[MAX_TASKS];
     int taskCount;
     String generateId();
+    Task filteredTasks[MAX_TASKS];  // Buffer for filtered results
 
 public:
     TaskManager();

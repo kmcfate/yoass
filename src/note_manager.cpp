@@ -74,7 +74,6 @@ Note* NoteManager::getAllNotes() {
 }
 
 Note* NoteManager::searchNotes(const String& query, int& count) {
-    static Note searchResults[MAX_NOTES];
     count = 0;
     String queryLower = query;
     queryLower.toLowerCase();

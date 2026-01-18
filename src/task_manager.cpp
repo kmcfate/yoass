@@ -89,7 +89,6 @@ Task* TaskManager::getAllTasks() {
 }
 
 Task* TaskManager::getTasksByStatus(TaskStatus status, int& count) {
-    static Task filteredTasks[MAX_TASKS];
     count = 0;
     for (int i = 0; i < taskCount; i++) {
         if (tasks[i].status == status) {
@@ -100,7 +99,6 @@ Task* TaskManager::getTasksByStatus(TaskStatus status, int& count) {
 }
 
 Task* TaskManager::getTasksByPriority(TaskPriority priority, int& count) {
-    static Task filteredTasks[MAX_TASKS];
     count = 0;
     for (int i = 0; i < taskCount; i++) {
         if (tasks[i].priority == priority) {
