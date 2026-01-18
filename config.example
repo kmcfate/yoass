@@ -1,0 +1,27 @@
+# Example configuration file for Yoass
+# Copy this file to config.h in the include directory and update with your settings
+
+# WiFi Configuration
+WIFI_SSID=YourWiFiNetworkName
+WIFI_PASSWORD=YourWiFiPassword
+
+# Time Zone Configuration
+GMT_OFFSET_SEC=0  # Your GMT offset in seconds (e.g., -18000 for EST)
+DAYLIGHT_OFFSET_SEC=0  # Daylight saving offset in seconds
+
+# Hardware Configuration
+# Adjust these pins based on your ESP32 board and I2S audio module
+
+# I2S Audio Pins
+I2S_WS=15    # Word Select (LRCLK)
+I2S_SD=32    # Serial Data (DIN)
+I2S_SCK=14   # Serial Clock (BCLK)
+
+# Control Pins
+BUTTON_PIN=0  # Boot button on most ESP32 dev boards
+LED_PIN=2     # Built-in LED on most ESP32 dev boards
+
+# Storage Limits
+MAX_TASKS=50
+MAX_NOTES=100
+MAX_REMINDERS=50
