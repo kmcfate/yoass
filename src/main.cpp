@@ -238,10 +238,13 @@ void handleSerialCommands() {
             unsigned long seconds = Serial.parseInt();
             Serial.readStringUntil('\n');
             
-            // Prevent overflow: max 4294967 seconds (49 days)
-            // Safe multiplication check: if seconds > ULONG_MAX/1000
-            if (seconds > 4294967UL) {
-                Serial.println("Time too large! Maximum is 4294967 seconds (49 days)");
+            // Prevent overflow: calculate safe maximum
+            const unsigned long MAX_SECONDS = ULONG_MAX / 1000UL;  // ~4294967 seconds (49 days)
+            
+            if (seconds > MAX_SECONDS) {
+                Serial.print("Time too large! Maximum is ");
+                Serial.print(MAX_SECONDS);
+                Serial.println(" seconds (49 days)");
                 audioHandler.playError();
             } else {
                 // Safe multiplication since we checked bounds

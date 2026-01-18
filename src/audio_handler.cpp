@@ -64,11 +64,11 @@ bool AudioHandler::playTone(int frequency, int duration) {
     
     const int samples = (sampleRate * duration) / 1000;
     
-    // Use reasonably sized stack buffer (max ~16KB)
-    const int maxSamples = sampleRate / 2;  // Max 500ms at 16kHz
-    if (samples > maxSamples) return false;
+    // Fixed maximum buffer size for predictable stack usage (~16KB)
+    const int MAX_BUFFER_SAMPLES = 8000;  // 500ms at 16kHz
+    static int16_t sampleBuffer[MAX_BUFFER_SAMPLES];
     
-    int16_t sampleBuffer[maxSamples];
+    if (samples > MAX_BUFFER_SAMPLES) return false;
     
     for (int i = 0; i < samples; i++) {
         float angle = 2.0 * PI * frequency * i / sampleRate;

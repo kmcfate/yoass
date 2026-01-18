@@ -152,9 +152,16 @@ void ReminderManager::checkReminders(unsigned long currentTime) {
             
             if (reminders[i].recurring && reminders[i].recurInterval > 0) {
                 // Update trigger time for next occurrence
-                // Convert recurInterval from seconds to milliseconds safely
-                unsigned long intervalMs = reminders[i].recurInterval * 1000UL;
-                reminders[i].triggerTime = currentTime + intervalMs;
+                // Convert recurInterval from seconds to milliseconds with overflow protection
+                const unsigned long MAX_SECONDS = ULONG_MAX / 1000UL;
+                if (reminders[i].recurInterval > MAX_SECONDS) {
+                    // Interval too large, disable reminder
+                    reminders[i].enabled = false;
+                    Serial.println("Recurring interval too large, disabling reminder");
+                } else {
+                    unsigned long intervalMs = reminders[i].recurInterval * 1000UL;
+                    reminders[i].triggerTime = currentTime + intervalMs;
+                }
                 saveReminders();
             } else {
                 // Disable one-time reminder
