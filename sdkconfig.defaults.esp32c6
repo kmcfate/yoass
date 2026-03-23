@@ -1,0 +1,15 @@
+# ESP32-C6-specific sdkconfig defaults.
+# Applied automatically when target is esp32c6.
+
+CONFIG_IDF_TARGET="esp32c6"
+
+# Flash: 16 MB QIO @ 80 MHz
+CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
+CONFIG_ESPTOOLPY_FLASHMODE_QIO=y
+CONFIG_ESPTOOLPY_FLASHFREQ_80M=y
+
+# No external PSRAM on this board (512 KB internal SRAM only)
+CONFIG_SPIRAM=n
+
+# Wi-Fi 6 (802.11ax) is default for C6; enable as needed
+CONFIG_ESP_WIFI_ENABLE_WPA3_SAE=y

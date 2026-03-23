@@ -1,0 +1,26 @@
+menu "Yoass Board Configuration"
+
+    choice YOASS_BOARD
+        prompt "Target board"
+        default YOASS_BOARD_ESP32_C6_AMOLED_1_8 if IDF_TARGET_ESP32C6
+        default YOASS_BOARD_ESP32_S3_AMOLED_1_8 if IDF_TARGET_ESP32S3
+
+        config YOASS_BOARD_ESP32_C6_AMOLED_1_8
+            bool "Waveshare ESP32-C6-Touch-AMOLED-1.8"
+            depends on IDF_TARGET_ESP32C6
+            help
+                Waveshare 1.8-inch AMOLED touch board based on ESP32-C6.
+                RISC-V 32-bit @ 160 MHz, WiFi 6, BLE 5, Zigbee 3.0, Thread.
+                16 MB flash, no PSRAM.
+
+        config YOASS_BOARD_ESP32_S3_AMOLED_1_8
+            bool "Waveshare ESP32-S3-Touch-AMOLED-1.8"
+            depends on IDF_TARGET_ESP32S3
+            help
+                Waveshare 1.8-inch AMOLED touch board based on ESP32-S3R8.
+                Xtensa LX7 dual-core @ 240 MHz, WiFi 4, BLE 5.
+                16 MB flash, 8 MB octal PSRAM, microSD slot.
+
+    endchoice
+
+endmenu

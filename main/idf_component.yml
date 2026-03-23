@@ -1,0 +1,28 @@
+## IDF Component Manager manifest for yoass/main
+##
+## Install ESP-IDF >= 5.3, then run:
+##   idf.py set-target esp32c6   # or esp32s3
+##   idf.py build
+##
+## Components are fetched automatically from https://components.espressif.com
+
+dependencies:
+  idf: ">=5.3.0"
+
+  # 1.8" AMOLED display driver — SH8601 via QSPI
+  waveshare/esp_lcd_sh8601: ">=1.0.2"
+
+  # 6-axis IMU — QMI8658 via I2C
+  waveshare/qmi8658: ">=1.0.1"
+
+  # Capacitive touch controller — FT3168/FT6146 via I2C (ft5x06 family)
+  espressif/esp_lcd_touch_ft5x06: ">=1.0.0"
+
+  # LVGL integration port for ESP-IDF (double-buffered, anti-tear)
+  espressif/esp_lvgl_port: ">=2.3.0"
+
+  # LVGL graphics library
+  lvgl/lvgl: "~9.2.0"
+
+  # AXP2101 PMIC — XPowersLib (uncomment when available on registry)
+  # lewisxhe/xpowerslib: ">=0.2.0"
