@@ -1,0 +1,29 @@
+# ESP-IDF build artifacts
+build/
+sdkconfig
+sdkconfig.old
+
+# IDF Component Manager
+dependencies.lock
+managed_components/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+
+# Secrets — never commit
+*.pem
+*.key
+secrets.h

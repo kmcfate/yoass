@@ -1,0 +1,23 @@
+# Shared sdkconfig defaults for all supported boards.
+# Board-specific overrides live in sdkconfig.defaults.<target>.
+
+# Partition table
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+
+# Stack & scheduler
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=8192
+CONFIG_FREERTOS_HZ=1000
+
+# Logging
+CONFIG_LOG_DEFAULT_LEVEL_INFO=y
+CONFIG_BOOTLOADER_LOG_LEVEL_WARN=y
+
+# Compiler
+CONFIG_COMPILER_OPTIMIZATION_SIZE=y
+
+# NVS
+CONFIG_NVS_ASSERT_ERROR_CHECK=y
+
+# I2C
+CONFIG_I2C_ENABLE_DEBUG_LOG=n

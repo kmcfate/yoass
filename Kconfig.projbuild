@@ -1,0 +1,41 @@
+menu "Yoass Board Configuration"
+
+    choice YOASS_BOARD
+        prompt "Target board"
+        default YOASS_BOARD_ESP32_C6_AMOLED_1_8 if IDF_TARGET_ESP32C6
+        default YOASS_BOARD_ESP32_S3_AMOLED_1_8 if IDF_TARGET_ESP32S3
+
+        config YOASS_BOARD_ESP32_C6_AMOLED_1_8
+            bool "Waveshare ESP32-C6-Touch-AMOLED-1.8"
+            depends on IDF_TARGET_ESP32C6
+            help
+                Waveshare 1.8-inch AMOLED touch board based on ESP32-C6.
+                RISC-V 32-bit @ 160 MHz, Wi-Fi 6, BLE 5, Zigbee 3.0, Thread.
+                16 MB flash, no PSRAM.
+                Peripherals: SH8601 (QSPI), FT3168 touch (I2C), QMI8658 IMU,
+                PCF85063 RTC, AXP2101 PMIC, TCA9554 IO expander, audio codec.
+
+        config YOASS_BOARD_ESP32_S3_AMOLED_1_8
+            bool "Waveshare ESP32-S3-Touch-AMOLED-1.8"
+            depends on IDF_TARGET_ESP32S3
+            help
+                Waveshare 1.8-inch AMOLED touch board based on ESP32-S3R8.
+                Xtensa LX7 dual-core @ 240 MHz, Wi-Fi 4, BLE 5.
+                16 MB flash, 8 MB octal PSRAM, microSD slot.
+                Peripherals: SH8601 (QSPI), FT3168 touch (I2C), QMI8658 IMU,
+                PCF85063 RTC, AXP2101 PMIC, TCA9554 IO expander, audio codec.
+
+    endchoice
+
+    config BOARD_LCD_DRAW_BUF_LINES
+        int "LVGL draw buffer height (lines)"
+        default 20 if YOASS_BOARD_ESP32_C6_AMOLED_1_8
+        default 50 if YOASS_BOARD_ESP32_S3_AMOLED_1_8
+        range 10 100
+        help
+            Number of display scan lines allocated for the LVGL partial draw
+            buffer. Larger values improve throughput but consume more RAM.
+            On C6 (512 KB SRAM, no PSRAM) keep at 20 or below.
+            On S3R8 (8 MB PSRAM) 50 lines (~36 KB at RGB565) is comfortable.
+
+endmenu

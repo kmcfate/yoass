@@ -1,0 +1,30 @@
+## IDF Component Manager manifest for yoass/main
+##
+## After editing this file run:
+##   idf.py update-dependencies
+##
+## Components are fetched from https://components.espressif.com
+
+dependencies:
+  idf: ">=5.3.0"
+
+  # 1.8" AMOLED display driver — SH8601 via QSPI
+  waveshare/esp_lcd_sh8601: ">=1.0.2"
+
+  # 6-axis IMU — QMI8658 via I2C
+  waveshare/qmi8658: ">=1.0.1"
+
+  # Capacitive touch — FT3168/FT6146 via I2C (ft5x06 driver family)
+  espressif/esp_lcd_touch_ft5x06: ">=1.0.0"
+
+  # GPIO IO expander — TCA9554 (controls LCD reset line on both boards)
+  espressif/esp_io_expander_tca9554: ">=1.0.1"
+
+  # LVGL integration port (double-buffered, anti-tear, FreeRTOS task)
+  espressif/esp_lvgl_port: ">=2.3.0"
+
+  # LVGL graphics library
+  lvgl/lvgl: "~9.2.0"
+
+  # AXP2101 PMIC — XPowersLib (uncomment and pin a version when ready)
+  # lewisxhe/xpowerslib: ">=0.2.0"
