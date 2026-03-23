@@ -4,7 +4,7 @@
 
 Compact 1.8-inch AMOLED development board based on the ESP32-S3R8 SoC.
 Adds 8 MB stacked octal PSRAM and a microSD card slot compared to the C6 variant,
-while sharing the same display, touch, IMU, RTC, and PMIC peripherals.
+while sharing the same display, touch, IMU, RTC, PMIC, and IO expander ICs.
 
 ## Specifications
 
@@ -20,6 +20,7 @@ while sharing the same display, touch, IMU, RTC, and PMIC peripherals.
 | **Display** | 1.8" AMOLED, 368 × 448 px, 16.7 M colors |
 | **Display driver** | SH8601, QSPI interface |
 | **Touch** | FT3168, I2C interface (10 kHz – 400 kHz) |
+| **IO expander** | TCA9554, I2C (controls LCD reset and power rails) |
 | **IMU** | QMI8658, 6-axis (16-bit accel + gyro) |
 | **RTC** | PCF85063, backup battery pads onboard |
 | **PMIC** | AXP2101 (LiPo charge/discharge + rail management) |
@@ -42,33 +43,39 @@ while sharing the same display, touch, IMU, RTC, and PMIC peripherals.
 | Device | Address |
 |--------|---------|
 | FT3168 touch | 0x38 |
-| QMI8658 IMU (SDO low) | 0x6A |
+| TCA9554 IO expander (A0/A1/A2=GND) | 0x20 |
+| QMI8658 IMU (SDO=VCC) | 0x6B |
 | AXP2101 PMIC | 0x34 |
 | PCF85063 RTC | 0x51 |
 
 ## Pin Assignments
 
-> **Important:** The pin values below are based on comparable Waveshare S3 AMOLED
-> board schematics. Verify every entry against the official schematic and demo
-> source before flashing real hardware.
+Pins verified against official Waveshare BSP header:
+`waveshareteam/Waveshare-ESP32-components`, file
+`bsp/esp32_s3_touch_amoled_1_8/include/bsp/esp32_s3_touch_amoled_1_8.h`.
 
-| Signal | GPIO | Notes |
-|--------|------|-------|
-| I2C SDA | 6 | Shared by touch, IMU, RTC, PMIC |
-| I2C SCL | 7 | Shared by touch, IMU, RTC, PMIC |
-| SH8601 QSPI CLK | 47 | Verify |
-| SH8601 QSPI CS | 9 | Verify |
-| SH8601 QSPI D0 | 18 | Verify |
-| SH8601 QSPI D1 | 17 | Verify |
-| SH8601 QSPI D2 | 16 | Verify |
-| SH8601 QSPI D3 | 15 | Verify |
-| LCD Reset | — | Controlled via AXP2101 PMIC |
-| Touch INT | — | Verify if connected |
-| microSD CLK | 12 | Verify |
-| microSD CMD | 11 | Verify |
-| microSD D0 | 13 | Verify |
-
-Update `components/board/include/board.h` once confirmed.
+| Signal | GPIO | Status |
+|--------|------|--------|
+| I2C SDA (shared bus) | 15 | Verified |
+| I2C SCL (shared bus) | 14 | Verified |
+| SH8601 QSPI CLK | 11 | Verified |
+| SH8601 QSPI CS | 12 | Verified |
+| SH8601 QSPI D0 | 4 | Verified |
+| SH8601 QSPI D1 | 5 | Verified |
+| SH8601 QSPI D2 | 6 | Verified |
+| SH8601 QSPI D3 | 7 | Verified |
+| LCD Reset | — | Via TCA9554 IO expander |
+| Touch INT | 21 | Verified |
+| Touch RST | — | Not connected |
+| I2S SCLK | 9 | Verified |
+| I2S MCLK | 16 | Verified |
+| I2S WS (LCLK) | 45 | Verified |
+| I2S DOUT | 8 | Verified |
+| I2S DSIN | 10 | Verified |
+| Audio AMP EN | 46 | Verified |
+| microSD CLK | 2 | Verified |
+| microSD CMD | 1 | Verified |
+| microSD D0 | 3 | Verified |
 
 ## Development Resources
 
@@ -86,13 +93,8 @@ Update `components/board/include/board.h` once confirmed.
 ## Build Commands
 
 ```bash
-# One-time setup
 idf.py set-target esp32s3
-
-# Configure (board auto-selected by target)
-idf.py menuconfig
-
-# Build, flash, monitor
+idf.py update-dependencies
 idf.py build
 idf.py -p /dev/ttyUSB0 flash monitor
 ```

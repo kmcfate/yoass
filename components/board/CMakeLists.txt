@@ -8,6 +8,7 @@ idf_component_register(
         esp_lcd
         esp_lcd_touch
         esp_lvgl_port
+        esp_io_expander_tca9554
         esp_timer
         log
 )
